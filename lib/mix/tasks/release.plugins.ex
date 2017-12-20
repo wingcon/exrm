@@ -28,7 +28,7 @@ defmodule Mix.Tasks.Release.Plugins do
         for plugin <- plugins do
           name     = get_name(plugin)
           shortdoc = get_shortdoc(plugin)
-          IO.puts String.ljust(name, 30) <> " # " <> shortdoc
+          IO.puts String.pad_trailing(name, 30) <> " # " <> shortdoc
         end
     end
   end

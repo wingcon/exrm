@@ -98,7 +98,7 @@ defmodule Mix.Tasks.Release do
             config
           false ->
             msg    = IO.ANSI.yellow <> "Continue anyway? Your release may not work as expected if these dependencies are required!"
-            answer = IO.gets(msg <> " [Yn]: ") |> String.rstrip(?\n)
+            answer = IO.gets(msg <> " [Yn]: ") |> String.trim_trailing(?\n)
             IO.puts IO.ANSI.reset
             case answer =~ ~r/^(Y(es)?)?$/i do
               true  -> config
@@ -126,7 +126,7 @@ defmodule Mix.Tasks.Release do
       "" -> config
       _  -> %{config | :upgrade? => true}
     end
-    elixir_paths = get_elixir_lib_paths() |> Enum.map(&String.to_char_list/1)
+    elixir_paths = get_elixir_lib_paths() |> Enum.map(&String.to_charlist/1)
     lib_dirs = [ '#{Path.join(Mix.Project.build_path, "lib")}', '#{Mix.Project.deps_path}' | elixir_paths ]
     # Build release configuration
     relx_config = relx_config
@@ -203,7 +203,7 @@ defmodule Mix.Tasks.Release do
         vmargs_path
     end
     overlays = [overlay: [
-      {:copy, String.to_char_list(vmargs_path), 'releases/#{version}/vm.args'}
+      {:copy, String.to_charlist(vmargs_path), 'releases/#{version}/vm.args'}
     ]]
     # Update configuration to add new overlay for vm.args
     updated = Utils.merge(relx_config, overlays)

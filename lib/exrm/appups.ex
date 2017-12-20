@@ -20,12 +20,12 @@ defmodule ReleaseManager.Appups do
       v1_path
       |> Path.join("/ebin/")
       |> Path.join(Atom.to_string(application) <> ".app")
-      |> String.to_char_list
+      |> String.to_charlist
     v2_release =
       v2_path
       |> Path.join("/ebin/")
       |> Path.join(Atom.to_string(application) <> ".app")
-      |> String.to_char_list
+      |> String.to_charlist
 
     case :file.consult(v1_release) do
       { :ok, [ { :application, ^application, v1_props } ] } ->
@@ -52,17 +52,17 @@ defmodule ReleaseManager.Appups do
 
   defp make_appup(application, v1, v1_path, _v1_props, v2, v2_path, _v2_props) do
     {only_v1, only_v2, different} =
-      :beam_lib.cmp_dirs(to_char_list(Path.join(v1_path, "ebin")), to_char_list(Path.join(v2_path, "ebin")))
+      :beam_lib.cmp_dirs(to_charlist(Path.join(v1_path, "ebin")), to_charlist(Path.join(v2_path, "ebin")))
 
     appup =
-      { v2 |> String.to_char_list,
-        [ { v1 |> String.to_char_list,
+      { v2 |> String.to_charlist,
+        [ { v1 |> String.to_charlist,
             (for file <- only_v2, do: generate_instruction(:added, file)) ++
             (for {v1_file, v2_file} <- different, do: generate_instruction(:changed, {v1_file, v2_file})) ++
             (for file <- only_v1, do: generate_instruction(:deleted, file))
           }
         ],
-        [ { v1 |> String.to_char_list,
+        [ { v1 |> String.to_charlist,
             (for file <- only_v2, do: generate_instruction(:deleted, file)) ++
             (for {v1_file, v2_file} <- different, do: generate_instruction(:changed, {v1_file, v2_file})) ++
             (for file <- only_v1, do: generate_instruction(:added, file))

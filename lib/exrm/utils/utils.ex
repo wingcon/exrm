@@ -250,7 +250,7 @@ defmodule ReleaseManager.Utils do
   Writes a collection of Elixir/Erlang terms to the provided path
   """
   def write_terms(path, terms) when is_list(terms) do
-    format_str = String.duplicate("~p.\n\n", Enum.count(terms)) |> String.to_char_list
+    format_str = String.duplicate("~p.\n\n", Enum.count(terms)) |> String.to_charlist
     :file.write_file('#{path}', :io_lib.fwrite(format_str, terms |> Enum.reverse), [encoding: :utf8])
   end
 
@@ -277,8 +277,8 @@ defmodule ReleaseManager.Utils do
   def string_to_terms(str) do
     str
     |> String.split("}.")
-    |> Stream.map(&(String.strip(&1, ?\n)))
-    |> Stream.map(&String.strip/1)
+    |> Stream.map(&(String.trim(&1, ?\n)))
+    |> Stream.map(&String.trim/1)
     |> Stream.map(&('#{&1}}.'))
     |> Stream.map(&(:erl_scan.string(&1)))
     |> Stream.map(fn {:ok, tokens, _} -> :erl_parse.parse_term(tokens) end)

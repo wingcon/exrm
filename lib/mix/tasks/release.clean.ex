@@ -107,7 +107,7 @@ defmodule Mix.Tasks.Release.Clean do
     THIS WILL REMOVE ALL RELEASES AND RELATED CONFIGURATION FOR #{app |> Atom.to_string |> String.upcase}!
     Are you absolutely sure you want to proceed?
     """
-    answer = IO.gets(msg <> " [Yn]: ") |> String.rstrip(?\n)
+    answer = IO.gets(msg <> " [Yn]: ") |> String.trim_trailing(?\n)
     IO.puts IO.ANSI.reset
     answer =~ ~r/^(Y(es)?)?$/i
   end
