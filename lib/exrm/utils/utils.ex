@@ -277,7 +277,7 @@ defmodule ReleaseManager.Utils do
   def string_to_terms(str) do
     str
     |> String.split("}.")
-    |> Stream.map(&(String.trim(&1, ?\n)))
+    |> Stream.map(&(String.trim(&1, "\n")))
     |> Stream.map(&String.trim/1)
     |> Stream.map(&('#{&1}}.'))
     |> Stream.map(&(:erl_scan.string(&1)))
