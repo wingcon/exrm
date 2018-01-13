@@ -1,9 +1,10 @@
 defmodule ReleaseManager.Utils do
+
   @moduledoc """
   This module provides helper functions for the `mix release` and
   `mix release.clean` tasks.
   """
-  import Mix.Shell,    only: [cmd: 2]
+  import Mix.Shell,    only: [cmd: 3]
   alias ReleaseManager.Utils.Logger
 
   # Relx constants
@@ -380,7 +381,7 @@ defmodule ReleaseManager.Utils do
   defp ignore(_), do: nil
 
   defp do_cmd(command, callback) do
-    case cmd(command, callback) do
+    case cmd(command, [], callback) do
       0 -> :ok
       _ -> {:error, "Release step failed. Please fix any errors and try again."}
     end
